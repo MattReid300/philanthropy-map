@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <FilterSidebar />
+    <FilterSidebar v-if="mdAndUp" />
     <div class="map-container">
       <MapView />
     </div>
@@ -15,7 +15,9 @@ import MapView from './components/MapView.vue'
 import FilterSidebar from '@/components/FilterSidebar.vue';
 import { ref, onMounted } from 'vue';
 import api from '@/plugins/axios';
+import { useDisplay } from 'vuetify';
 
+const { mdAndUp } = useDisplay();
 const data = ref(null);
 
 onMounted(async () => {
