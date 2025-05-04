@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import api from '@/plugins/axios';
 import { useDataStore } from '../stores/mapStore';
 
@@ -12,19 +12,19 @@ const mapStore = useDataStore();
 const selectedPlace = ref(null);
 
 //onMounted(async () => {
-    // try {
-    //     const response = await api.get();
-    //     places.value = response.data.map(item => ({
-    //         ...item,
-    //         latitude: parseFloat(item.geolat),
-    //         longitude: parseFloat(item.geolong),
-    //     }));
-    //     filteredPlaces.value = places.value
-    // } catch (error) {
-    //     console.error('Failed to fetch data:', error);
-    // }
-    //await mapStore.getLocations();
-    // this.filteredLocations = await mapStore.filteredLocations;
+// try {
+//     const response = await api.get();
+//     places.value = response.data.map(item => ({
+//         ...item,
+//         latitude: parseFloat(item.geolat),
+//         longitude: parseFloat(item.geolong),
+//     }));
+//     filteredPlaces.value = places.value
+// } catch (error) {
+//     console.error('Failed to fetch data:', error);
+// }
+//await mapStore.getLocations();
+// this.filteredLocations = await mapStore.filteredLocations;
 //})
 
 const openInfoWindow = (place) => {
@@ -36,10 +36,14 @@ const closeInfoWindow = () => {
     console.log('closeInfoWindow fired');
     selectedPlace.value = null;
 };
+
+const formattedGrantAmount = computed(() => {
+    return new Intl.NumberFormat('en-US').format(selectedPlace.value.grantamount);
+})
 </script>
 
 <template>
-    <GMapMap :center="{ lat: 53.3498, lng: -6.2603 }" :zoom="7" style="width: 100%; height: 100vh;">
+    <GMapMap :center="{ lat: 53.3498, lng: -6.2603 }" :zoom="7" style="width: 100%; height: 75vh;">
         <GMapMarker v-for="(place, index) in mapStore.filteredLocations" :key="index"
             :position="{ lat: place.latitude, lng: place.longitude }" :clickable="true" :draggable="false"
             @click="openInfoWindow(place)" />
@@ -54,8 +58,8 @@ const closeInfoWindow = () => {
                     <button @click="closeInfoWindow" class="close-btn">x</button>
                 </div>
                 <div class="info-box-content">
-                    <p>Funded by <span class="text-decoration-underline">{{
-                        selectedPlace.fundingorganisation }}</span></p>
+                    <p>Funded by <a href="" class="text-decoration-underline text-primary">{{
+                        selectedPlace.fundingorganisation }}</a></p>
                     <!-- <p><span class="font-weight-medium">Project Name: </span>{{ selectedPlace.projectname }}</p> -->
                     <p class="my-2"><span class="font-weight-medium"></span>{{ selectedPlace.impact }}</p>
                     <div class="d-flex flex-row align-center">
@@ -64,7 +68,7 @@ const closeInfoWindow = () => {
                     </div>
                     <div class="d-flex flex-row align-center">
                         <v-icon icon="mdi-cash-check" class="mr-1"></v-icon>
-                        <p><span class="font-weight-medium">Amount Approved: </span>{{ selectedPlace.grantamount }}€</p>
+                        <p><span class="font-weight-medium">Amount Approved: </span>{{ formattedGrantAmount }}€</p>
                     </div>
                 </div>
                 <!-- <div v-for="property in selectedPlace.info" :key="property" class="info-box-content"></div> -->
