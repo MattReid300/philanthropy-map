@@ -6,7 +6,9 @@
         <MapView />
       </div>
     </div>
-    <DashboardBox />
+    <div class="dash-container">
+      <DashboardBox />
+    </div>
   </div>
 
 </template>
@@ -69,5 +71,11 @@ body {
   /* width: 500px; */
   height: 100%;
   flex: 1;
+}
+
+.dash-container {
+  /* width: 500px; */
+  height: 25vh;
+  /* flex: 1; */
 }
 </style>

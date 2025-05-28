@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { useDataStore } from '../stores/mapStore';
 
 const mapStore = useDataStore();
@@ -8,7 +8,7 @@ const isOpen = ref(true);
 onMounted(async () => {
     await mapStore.getLocations();
 
-    const filteredOrgs = new Set(mapStore.locations.map(location => location.fundingorganisation));
+    const filteredOrgs = new Set(mapStore.locations.map(location => location.fundingorganisation).filter(org => org));
     fundingOrganisations.value = Array.from(filteredOrgs)
     const filteredNames = new Set(mapStore.locations.map(location => location.projectname));
     projectNames.value = Array.from(filteredNames)
@@ -18,7 +18,7 @@ onMounted(async () => {
 const fundingOrganisations = ref([])
 const projectNames = ref([]);
 const yearfunded = ref(["2024", "2023", "2022"]);
-const organisationTypes = ref([]);
+//const organisationTypes = ref([]);
 const impactAreas = ref([]);
 
 const selectedFundingOrganisations = ref([])
@@ -27,6 +27,10 @@ const grantRange = ref([0, 6000000]);
 const selectedYearFunded = ref([]);
 const selectedOrganisationTypes = ref([]);
 const selectedImpactAreas = ref([]);
+
+const fundingOrgTypes = computed(() => {
+    return Object.keys(mapStore.fundingOrgTypes);
+})
 
 watch(
     [grantRange, selectedFundingOrganisations, selectedProjectNames, selectedImpactAreas],
@@ -50,6 +54,29 @@ watch(
         });
     }
 );
+
+function formatNumber(value) {
+    if (value == null || isNaN(value)) return '';
+    return value.toLocaleString();
+}
+
+function parseNumber(value) {
+    return parseInt(value.replace(/,/g, '')) || 0;
+}
+
+const formattedMin = computed({
+    get: () => formatNumber(grantRange.value[0]),
+    set: (val) => {
+        grantRange.value[0] = parseNumber(val);
+    }
+});
+
+const formattedMax = computed({
+    get: () => formatNumber(grantRange.value[1]),
+    set: (val) => {
+        grantRange.value[1] = parseNumber(val);
+    }
+});
 </script>
 
 <template>
@@ -85,19 +112,19 @@ watch(
                 <v-col cols="12">
                     <h4>Amount Approved</h4>
                     <div class="d-flex flex-row">
-                        <div>
+                        <div class="w-50">
                             <v-label>Min:</v-label>
-                            <v-text-field v-model="grantRange[0]" type="number" variant="outlined"
-                                class="v-slider-input" hide-details single-line>
+                            <v-text-field v-model="formattedMin" type="text" variant="outlined" class="v-slider-input w-100"
+                                hide-details single-line readonly>
                                 <template v-slot:append-inner>
                                     <span class="append-text">€</span>
                                 </template>
                             </v-text-field>
                         </div>
-                        <div>
+                        <div class="w-50">
                             <v-label>Max:</v-label>
-                            <v-text-field v-model="grantRange[1]" type="number" variant="outlined"
-                                class="v-slider-input" hide-details single-line>
+                            <v-text-field v-model="formattedMax" type="text" variant="outlined"
+                                class="v-slider-input" hide-details single-line readonly>
                                 <template v-slot:append-inner>
                                     <span class="append-text">€</span>
                                 </template>
@@ -116,7 +143,7 @@ watch(
                 </v-col>
                 <v-col cols="12">
                     <h4>Funding Organisation Type</h4>
-                    <v-select v-model="selectedOrganisationTypes" :items="organisationTypes" placeholder="Search..."
+                    <v-select v-model="selectedOrganisationTypes" :items="fundingOrgTypes" placeholder="Search..."
                         multiple clearable>
                         <template v-slot:selection="{ item, index }">
                             <v-chip v-if="index < 1" :text="item.title"></v-chip>

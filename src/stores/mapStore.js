@@ -6,6 +6,24 @@ export const useDataStore = defineStore('mapstore', {
         return {
             locations: [],
             filteredLocations: [],
+            fundingOrgTypes: {
+                "Charity Trust": [],
+                "Community Foundation": [],
+                "Corporate Foundation": [],
+                "Donor Advised Fund": [],
+                "Family Foundation": [],
+                "Giving Circle": [],
+                "Grant Making Charity": [],
+                "Independent Grant Making Foundation": [],
+                "Independent Grant Making Organisation": [],
+                "Not for Profit Company with Charitable Status": [],
+                "Philanthropy Intermediary": [],
+                "Private Direct Donations": [],
+                "Private Philanthropic Trust": [],
+                "Social Finance Investing": [],
+                "University Foundation": [],
+                "Venture Philanthropy Fund": []
+            },
             impactAreaCategories: {
                 "Arts, Culture, and Heritage":
                     [
