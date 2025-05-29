@@ -9,10 +9,14 @@ onMounted(async () => {
     await mapStore.getLocations();
 
     const filteredOrgs = new Set(mapStore.locations.map(location => location.fundingorganisation).filter(org => org));
-    fundingOrganisations.value = Array.from(filteredOrgs)
+    fundingOrganisations.value = Array.from(filteredOrgs).sort();
+
     const filteredNames = new Set(mapStore.locations.map(location => location.projectname));
-    projectNames.value = Array.from(filteredNames)
-    impactAreas.value = Object.keys(mapStore.impactAreaCategories);
+    projectNames.value = Array.from(filteredNames).sort();
+
+    impactAreas.value = Object.keys(mapStore.impactAreaCategories).sort();
+
+    fundingOrgTypes.value = Object.keys(mapStore.fundingOrgTypes).sort();
 })
 
 const fundingOrganisations = ref([])
@@ -20,6 +24,7 @@ const projectNames = ref([]);
 const yearfunded = ref(["2024", "2023", "2022"]);
 //const organisationTypes = ref([]);
 const impactAreas = ref([]);
+const fundingOrgTypes = ref([]);
 
 const selectedFundingOrganisations = ref([])
 const selectedProjectNames = ref([]);
@@ -28,9 +33,7 @@ const selectedYearFunded = ref([]);
 const selectedOrganisationTypes = ref([]);
 const selectedImpactAreas = ref([]);
 
-const fundingOrgTypes = computed(() => {
-    return Object.keys(mapStore.fundingOrgTypes);
-})
+
 
 watch(
     [grantRange, selectedFundingOrganisations, selectedProjectNames, selectedImpactAreas],
