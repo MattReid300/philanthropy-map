@@ -53,7 +53,7 @@ const formattedGrantAmount = computed(() => {
             <div class="info-box">
                 <div class="d-flex flex-row justify-space-between align-center">
                     <div>
-                        <h2>{{ selectedPlace.projectname }} <span class="text-grey">({{ selectedPlace.year }})</span></h2>
+                        <h2>{{ selectedPlace.projectname }}</h2>
                     </div>
                     <button @click="closeInfoWindow" class="close-btn">x</button>
                 </div>
@@ -69,6 +69,10 @@ const formattedGrantAmount = computed(() => {
                     <div class="d-flex flex-row align-center">
                         <v-icon icon="mdi-cash-check" class="mr-1"></v-icon>
                         <p><span class="font-weight-medium">Amount Approved: </span>{{ formattedGrantAmount }}€</p>
+                    </div>
+                    <div class="d-flex flex-row align-center">
+                        <v-icon icon="mdi-calendar" class="mr-1"></v-icon>
+                        <p><span class="font-weight-medium">Year Funded: </span>{{ selectedPlace.year }}</p>
                     </div>
                 </div>
                 <!-- <div v-for="property in selectedPlace.info" :key="property" class="info-box-content"></div> -->

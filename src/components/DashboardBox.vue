@@ -192,7 +192,7 @@ const donutDataCountry = computed(() => {
         labels,
         datasets: [
             {
-                label: 'Locations by Country',
+                //label: 'Locations by Country',
                 data,
                 backgroundColor: ['#DC0000', '#960101', '#FF6363', '#D9D9D9']
             },
@@ -248,7 +248,7 @@ const donutDataFundingType = computed(() => {
         labels,
         datasets: [
             {
-                label: 'Locations by Funding Model',
+                //label: 'Locations by Funding Model',
                 data,
                 backgroundColor: ['#DC0000', '#960101', '#FF6363', '#D9D9D9']
             },
