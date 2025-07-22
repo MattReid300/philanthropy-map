@@ -8,7 +8,8 @@ import * as directives from 'vuetify/directives'
 const lightTheme = {
     dark: false,
     colors: {
-        primary: '#2c3e50'
+        primary: '#2c3e50',
+        grey: '#a9a9a9'
     }
 }
 

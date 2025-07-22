@@ -14,14 +14,17 @@ onMounted(async () => {
     const filteredNames = new Set(mapStore.locations.map(location => location.projectname));
     projectNames.value = Array.from(filteredNames).sort();
 
+    const filteredFundingOrgTypes = new Set(mapStore.locations.map(location => location.fundingmodel));
+    fundingOrgTypes.value = Array.from(filteredFundingOrgTypes).sort();
+
     impactAreas.value = Object.keys(mapStore.impactAreaCategories).sort();
 
-    fundingOrgTypes.value = Object.keys(mapStore.fundingOrgTypes).sort();
+    //fundingOrgTypes.value = Object.keys(mapStore.fundingOrgTypes).sort();
 })
 
 const fundingOrganisations = ref([])
 const projectNames = ref([]);
-const yearfunded = ref(["2024", "2023", "2022"]);
+const yearfunded = ref(["2024", "2023"]);
 //const organisationTypes = ref([]);
 const impactAreas = ref([]);
 const fundingOrgTypes = ref([]);
@@ -36,8 +39,8 @@ const selectedImpactAreas = ref([]);
 
 
 watch(
-    [grantRange, selectedFundingOrganisations, selectedProjectNames, selectedImpactAreas],
-    ([range, selectedOrgs, selectedNames, selectedAreas]) => {
+    [grantRange, selectedFundingOrganisations, selectedProjectNames, selectedImpactAreas, selectedYearFunded, selectedOrganisationTypes],
+    ([range, selectedOrgs, selectedNames, selectedAreas, selectedYears, selectedTypes]) => {
 
         let allSubcategories = [];
         if (selectedAreas && selectedAreas.length > 0) {
@@ -53,7 +56,9 @@ watch(
             max: range[1],
             organisations: selectedOrgs,
             names: selectedNames,
-            areas: allSubcategories
+            areas: allSubcategories,
+            years: selectedYears,
+            types: selectedTypes
         });
     }
 );
@@ -117,8 +122,8 @@ const formattedMax = computed({
                     <div class="d-flex flex-row">
                         <div class="w-50">
                             <v-label>Min:</v-label>
-                            <v-text-field v-model="formattedMin" type="text" variant="outlined" class="v-slider-input w-100"
-                                hide-details single-line readonly>
+                            <v-text-field v-model="formattedMin" type="text" variant="outlined"
+                                class="v-slider-input w-100" hide-details single-line readonly>
                                 <template v-slot:append-inner>
                                     <span class="append-text">€</span>
                                 </template>
@@ -126,8 +131,8 @@ const formattedMax = computed({
                         </div>
                         <div class="w-50">
                             <v-label>Max:</v-label>
-                            <v-text-field v-model="formattedMax" type="text" variant="outlined"
-                                class="v-slider-input" hide-details single-line readonly>
+                            <v-text-field v-model="formattedMax" type="text" variant="outlined" class="v-slider-input"
+                                hide-details single-line readonly>
                                 <template v-slot:append-inner>
                                     <span class="append-text">€</span>
                                 </template>

@@ -191,7 +191,7 @@ export const useDataStore = defineStore('mapstore', {
             }));
             this.filteredLocations = this.locations;
         },
-        filterLocations({ min, max, organisations = [], names = [], areas = [] }) {
+        filterLocations({ min, max, organisations = [], names = [], areas = [], years = [], types = [] }) {
             console.log('Filtering with Impact Areas:', areas);
             this.filteredLocations = this.locations.filter(location => {
                 const grant = parseInt(location.grantamount);
@@ -201,7 +201,9 @@ export const useDataStore = defineStore('mapstore', {
                 const impactAreaMatch = areas.length === 0 || areas.some(area =>
                     location.impactarea.split(', ').map(s => s.trim()).includes(area)
                 );
-                return orgMatch && grantMatch && nameMatch && impactAreaMatch;
+                const yearMatch = years.length === 0 || years.includes(location.year);
+                const typeMatch = types.length === 0 || types.includes(location.fundingmodel)
+                return orgMatch && grantMatch && nameMatch && impactAreaMatch && yearMatch && typeMatch;
             });
         },
         // Optionally, you might want an action to reset the filter

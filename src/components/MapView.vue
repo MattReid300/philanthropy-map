@@ -53,7 +53,7 @@ const formattedGrantAmount = computed(() => {
             <div class="info-box">
                 <div class="d-flex flex-row justify-space-between align-center">
                     <div>
-                        <h2>{{ selectedPlace.projectname }}</h2>
+                        <h2>{{ selectedPlace.projectname }} <span class="text-grey">({{ selectedPlace.year }})</span></h2>
                     </div>
                     <button @click="closeInfoWindow" class="close-btn">x</button>
                 </div>
