@@ -6,6 +6,7 @@ export const useDataStore = defineStore('mapstore', {
         return {
             locations: [],
             filteredLocations: [],
+            selectedPlace: "",
             fundingOrgTypes: {
                 "Charity Trust": [],
                 "Community Foundation": [],

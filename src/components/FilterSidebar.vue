@@ -92,7 +92,7 @@ const formattedMax = computed({
         <div v-if="isOpen" class="sidebar elevation-0">
             <v-row no-gutters>
                 <v-col cols="12" class="my-3">
-                    <h2>Filter Grants</h2>
+                    <h2>Filter Impact</h2>
                 </v-col>
                 <v-col cols="12">
                     <h4>Funding Organisation</h4>
@@ -108,14 +108,14 @@ const formattedMax = computed({
                 </v-col>
                 <v-col cols="12">
                     <h4>Project Name</h4>
-                    <v-select v-model="selectedProjectNames" :items="projectNames" placeholder="Search..." multiple>
+                    <v-autocomplete v-model="selectedProjectNames" :items="projectNames" placeholder="Search..." multiple :menu-props="{ width: 500 }" clearable>
                         <template v-slot:selection="{ item, index }">
                             <v-chip v-if="index < 1" :text="item.title"></v-chip>
                             <span v-if="index === 1" class="text-grey text-caption align-self-center">
                                 (+{{ selectedProjectNames.length - 1 }} others)
                             </span>
                         </template>
-                    </v-select>
+                    </v-autocomplete>
                 </v-col>
                 <v-col cols="12">
                     <h4>Amount Approved</h4>

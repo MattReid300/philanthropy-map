@@ -5,12 +5,12 @@
       <div class="map-container">
         <MapView />
       </div>
+      <InfoSidebar />
     </div>
     <div class="dash-container">
       <DashboardBox />
     </div>
   </div>
-
 </template>
 
 <script setup>
@@ -18,6 +18,7 @@
 // import CompanyMap from './components/CompanyMap.vue'
 import MapView from './components/MapView.vue'
 import FilterSidebar from '@/components/FilterSidebar.vue';
+import InfoSidebar from '@/components/InfoSidebar.vue';
 import DashboardBox from '@/components/DashboardBox.vue';
 import { ref, onMounted } from 'vue';
 import api from '@/plugins/axios';

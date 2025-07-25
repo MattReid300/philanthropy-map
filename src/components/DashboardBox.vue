@@ -144,7 +144,7 @@ const barDataYear = computed(() => {
         labels: ['2023', '2024'],
         datasets: [
             {
-                label: 'Number of Locations',
+                //label: 'Number of Locations',
                 data: [counts['2023'], counts['2024']],
                 backgroundColor: ['#DC0000', '#960101'],
             },

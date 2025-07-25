@@ -29,12 +29,14 @@ const selectedPlace = ref(null);
 
 const openInfoWindow = (place) => {
     selectedPlace.value = place;
+    mapStore.selectedPlace = place;
     // infoWindow.value?.open(marker);
 };
 
 const closeInfoWindow = () => {
     console.log('closeInfoWindow fired');
     selectedPlace.value = null;
+    mapStore.selectedPlace = "";
 };
 
 const formattedGrantAmount = computed(() => {
@@ -43,7 +45,13 @@ const formattedGrantAmount = computed(() => {
 </script>
 
 <template>
-    <GMapMap :center="{ lat: 53.3498, lng: -6.2603 }" :zoom="7" style="width: 100%; height: 75vh;">
+    <GMapMap :center="{ lat: 53.3498, lng: -6.2603 }" :zoom="7" style="width: 100%; height: 75vh;" :options="{
+        zoomControl: true,
+        streetViewControl: false,
+        mapTypeControl: true,
+        fullscreenControl: true,
+        disableDefaultUI: true
+    }">
         <GMapMarker v-for="(place, index) in mapStore.filteredLocations" :key="index"
             :position="{ lat: place.latitude, lng: place.longitude }" :clickable="true" :draggable="false"
             @click="openInfoWindow(place)" />
@@ -58,21 +66,9 @@ const formattedGrantAmount = computed(() => {
                     <button @click="closeInfoWindow" class="close-btn">x</button>
                 </div>
                 <div class="info-box-content">
-                    <p>Funded by <a href="" class="text-decoration-underline text-primary">{{
-                        selectedPlace.fundingorganisation }}</a></p>
-                    <!-- <p><span class="font-weight-medium">Project Name: </span>{{ selectedPlace.projectname }}</p> -->
-                    <p class="my-2"><span class="font-weight-medium"></span>{{ selectedPlace.impact }}</p>
-                    <div class="d-flex flex-row align-center">
-                        <v-icon icon="mdi-puzzle-outline" class="mr-1"></v-icon>
-                        <p><span class="font-weight-medium">Impact Area: </span>{{ selectedPlace.impactarea }}</p>
-                    </div>
-                    <div class="d-flex flex-row align-center">
-                        <v-icon icon="mdi-cash-check" class="mr-1"></v-icon>
-                        <p><span class="font-weight-medium">Amount Approved: </span>{{ formattedGrantAmount }}€</p>
-                    </div>
-                    <div class="d-flex flex-row align-center">
-                        <v-icon icon="mdi-calendar" class="mr-1"></v-icon>
-                        <p><span class="font-weight-medium">Year Funded: </span>{{ selectedPlace.year }}</p>
+                    <div class="d-flex flex-row justify-center align-center">
+                        <!-- <v-icon icon="mdi-cash-check" class="mr-1"></v-icon> -->
+                        <p style="font-size: 30px;">{{ formattedGrantAmount }}€</p>
                     </div>
                 </div>
                 <!-- <div v-for="property in selectedPlace.info" :key="property" class="info-box-content"></div> -->
@@ -89,7 +85,7 @@ const formattedGrantAmount = computed(() => {
 
 .info-box-content {
     text-align: left;
-    line-height: 20px;
+    /* line-height: 20px; */
 }
 
 .close-btn {

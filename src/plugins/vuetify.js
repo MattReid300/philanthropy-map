@@ -9,7 +9,8 @@ const lightTheme = {
     dark: false,
     colors: {
         primary: '#2c3e50',
-        grey: '#a9a9a9'
+        grey: '#a9a9a9',
+        darkgrey: '#686868ff'
     }
 }
 
@@ -17,7 +18,7 @@ export default createVuetify({
     components,
     directives,
     theme: {
-        defaultTheme: 'lightTheme',
+        defaultTheme: 'lightTheme', 
         themes: {
             lightTheme
         }
