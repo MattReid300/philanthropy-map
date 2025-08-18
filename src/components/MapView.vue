@@ -40,41 +40,57 @@ const closeInfoWindow = () => {
 };
 
 const formattedGrantAmount = computed(() => {
-    return new Intl.NumberFormat('en-US').format(selectedPlace.value.grantamount);
+    return new Intl.NumberFormat('en-US').format(mapStore.totalSelectedGrantAmount);
 })
 </script>
 
 <template>
-    <GMapMap :center="{ lat: 53.3498, lng: -6.2603 }" :zoom="7" style="width: 100%; height: 75vh;" :options="{
-        zoomControl: true,
-        streetViewControl: false,
-        mapTypeControl: true,
-        fullscreenControl: true,
-        disableDefaultUI: true
-    }">
-        <GMapMarker v-for="(place, index) in mapStore.filteredLocations" :key="index"
-            :position="{ lat: place.latitude, lng: place.longitude }" :clickable="true" :draggable="false"
-            @click="openInfoWindow(place)" />
-        <GMapInfoWindow v-if="selectedPlace"
-            :position="selectedPlace ? { lat: selectedPlace.latitude, lng: selectedPlace.longitude } : null"
-            @closeclick="closeInfoWindow">
-            <div class="info-box">
-                <div class="d-flex flex-row justify-space-between align-center">
-                    <div>
-                        <h2>{{ selectedPlace.projectname }}</h2>
+    <div style="position: relative; width: 100%; height: 75vh;">
+        <!-- Google Map -->
+        <GMapMap :center="{ lat: 53.3498, lng: -6.2603 }" :zoom="7" style="width: 100%; height: 75vh;" :options="{
+            zoomControl: true,
+            streetViewControl: false,
+            mapTypeControl: true,
+            fullscreenControl: true,
+            disableDefaultUI: true
+        }">
+            <GMapMarker v-for="(place, index) in mapStore.filteredLocations" :key="index"
+                :position="{ lat: place.latitude, lng: place.longitude }" :clickable="true" :draggable="false"
+                @click="openInfoWindow(place)" />
+            <GMapInfoWindow v-if="selectedPlace"
+                :position="selectedPlace ? { lat: selectedPlace.latitude, lng: selectedPlace.longitude } : null"
+                @closeclick="closeInfoWindow">
+                <div class="info-box">
+                    <div class="d-flex flex-row justify-space-between align-center">
+                        <div>
+                            <h2>{{ selectedPlace.projectname }}</h2>
+                        </div>
+                        <button @click="closeInfoWindow" class="close-btn">x</button>
                     </div>
-                    <button @click="closeInfoWindow" class="close-btn">x</button>
-                </div>
-                <div class="info-box-content">
-                    <div class="d-flex flex-row justify-center align-center">
-                        <!-- <v-icon icon="mdi-cash-check" class="mr-1"></v-icon> -->
-                        <p style="font-size: 30px;">{{ formattedGrantAmount }}€</p>
+                    <div class="info-box-content">
+                        <div class="d-flex flex-row justify-center align-center">
+                            <p style="font-size: 30px;">€{{ formattedGrantAmount }}</p>
+                        </div>
                     </div>
                 </div>
-                <!-- <div v-for="property in selectedPlace.info" :key="property" class="info-box-content"></div> -->
-            </div>
-        </GMapInfoWindow>
-    </GMapMap>
+            </GMapInfoWindow>
+        </GMapMap>
+
+        <!-- Top-right box -->
+        <div style="
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 8px 12px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        font-weight: bold;
+        z-index: 10;
+      ">
+           Total: {{ mapStore.totalGrantAmount }}
+        </div>
+    </div>
 </template>
 
 <style>

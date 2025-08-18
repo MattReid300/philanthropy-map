@@ -211,5 +211,39 @@ export const useDataStore = defineStore('mapstore', {
         resetFilters() {
             this.filteredLocations = [...this.locations]; // Or however you want to reset
         },
+    },
+    getters: {
+        matchingLocations: (state) => {
+            if (!state.selectedPlace) return []
+            return state.locations.filter(
+                loc =>
+                    loc.latitude === state.selectedPlace?.latitude &&
+                    loc.longitude === state.selectedPlace?.longitude
+            )
+        },
+        totalSelectedGrantAmount: (state) => {
+            return state.locations
+                .filter(
+                    loc =>
+                        loc.latitude === state.selectedPlace?.latitude &&
+                        loc.longitude === state.selectedPlace?.longitude
+                )
+                .reduce((sum, loc) => sum + Number(loc.grantamount) || 0, 0)
+        },
+        totalGrantAmount: (state) => {
+            const total = state.filteredLocations.reduce((sum, loc) => {
+                const amount = parseFloat(
+                    String(loc.grantamount).replace(/[^0-9.-]+/g, '')
+                ) || 0
+                return sum + amount
+            }, 0)
+
+            // Format with commas (and currency symbol if needed)
+            return total.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0
+            })
+        }
     }
 });
