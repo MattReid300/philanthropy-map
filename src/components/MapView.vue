@@ -52,7 +52,8 @@ const formattedGrantAmount = computed(() => {
             streetViewControl: false,
             mapTypeControl: true,
             fullscreenControl: true,
-            disableDefaultUI: true
+            disableDefaultUI: true,
+            clickableIcons: false
         }">
             <GMapMarker v-for="(place, index) in mapStore.filteredLocations" :key="index"
                 :position="{ lat: place.latitude, lng: place.longitude }" :clickable="true" :draggable="false"
@@ -88,7 +89,7 @@ const formattedGrantAmount = computed(() => {
         font-weight: bold;
         z-index: 10;
       ">
-           Total: {{ mapStore.totalGrantAmount }}
+            Total: {{ mapStore.totalGrantAmount }}
         </div>
     </div>
 </template>
@@ -98,6 +99,11 @@ const formattedGrantAmount = computed(() => {
     display: flex;
     flex-direction: column;
 }
+
+.gm-style-iw .gm-ui-hover-effect {
+  display: none !important;
+}
+
 
 .info-box-content {
     text-align: left;

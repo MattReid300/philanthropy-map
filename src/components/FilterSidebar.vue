@@ -72,18 +72,34 @@ function parseNumber(value) {
     return parseInt(value.replace(/,/g, '')) || 0;
 }
 
+// const formattedMin = computed({
+//     get: () => formatNumber(grantRange.value[0]),
+//     set: (val) => {
+//         grantRange.value[0] = parseNumber(val);
+//     }
+// });
+
+// const formattedMax = computed({
+//     get: () => formatNumber(grantRange.value[1]),
+//     set: (val) => {
+//         grantRange.value[1] = parseNumber(val);
+//     }
+// });
+
 const formattedMin = computed({
-    get: () => formatNumber(grantRange.value[0]),
-    set: (val) => {
-        grantRange.value[0] = parseNumber(val);
-    }
+  get: () => formatNumber(grantRange.value[0]),
+  set: (val) => {
+    const num = parseNumber(val);
+    grantRange.value = [num, grantRange.value[1]];
+  },
 });
 
 const formattedMax = computed({
-    get: () => formatNumber(grantRange.value[1]),
-    set: (val) => {
-        grantRange.value[1] = parseNumber(val);
-    }
+  get: () => formatNumber(grantRange.value[1]),
+  set: (val) => {
+    const num = parseNumber(val);
+    grantRange.value = [grantRange.value[0], num];
+  },
 });
 </script>
 
@@ -123,7 +139,7 @@ const formattedMax = computed({
                         <div class="w-50">
                             <v-label>Min:</v-label>
                             <v-text-field v-model="formattedMin" type="text" variant="outlined"
-                                class="v-slider-input w-100" hide-details single-line readonly>
+                                class="v-slider-input w-100" hide-details single-line>
                                 <template v-slot:append-inner>
                                     <span class="append-text">€</span>
                                 </template>
@@ -132,7 +148,7 @@ const formattedMax = computed({
                         <div class="w-50">
                             <v-label>Max:</v-label>
                             <v-text-field v-model="formattedMax" type="text" variant="outlined" class="v-slider-input"
-                                hide-details single-line readonly>
+                                hide-details single-line>
                                 <template v-slot:append-inner>
                                     <span class="append-text">€</span>
                                 </template>

@@ -52,9 +52,9 @@ body {
   margin: 0;
 }
 
-.gm-ui-hover-effect {
+/* .gm-ui-hover-effect {
   display: none !important;
-}
+} */
 
 .main {
   display: flex;
