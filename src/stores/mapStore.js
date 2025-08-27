@@ -26,6 +26,21 @@ export const useDataStore = defineStore('mapstore', {
                 "Venture Philanthropy Fund": []
             },
             impactAreaCategories: {
+                "Advocacy & Civic Engagement": [],
+                "Animal Welfare": [],
+                "Arts & Culture": [],
+                "Community Services": [],
+                "Community Development": [],
+                "Education": [],
+                "Environment & Climate Change": [],
+                "Equality & Human Rights": [],
+                "Health & Wellbeing": [],
+                "Infrastructure & Public Works": [],
+                "Religion & Faith-Based Initiatives": [],
+                "Research & Innovation": [],
+                "Social Finance & Economic Opportunity": []
+            },
+            impactAreaCategories2: {
                 "Arts, Culture, and Heritage":
                     [
                         "Arts and Culture",

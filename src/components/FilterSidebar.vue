@@ -42,21 +42,21 @@ watch(
     [grantRange, selectedFundingOrganisations, selectedProjectNames, selectedImpactAreas, selectedYearFunded, selectedOrganisationTypes],
     ([range, selectedOrgs, selectedNames, selectedAreas, selectedYears, selectedTypes]) => {
 
-        let allSubcategories = [];
-        if (selectedAreas && selectedAreas.length > 0) {
-            selectedAreas.forEach(category => {
-                if (mapStore.impactAreaCategories[category]) {
-                    allSubcategories = [...allSubcategories, ...mapStore.impactAreaCategories[category]];
-                }
-            });
-        }
+        // let allSubcategories = [];
+        // if (selectedAreas && selectedAreas.length > 0) {
+        //     selectedAreas.forEach(category => {
+        //         if (mapStore.impactAreaCategories[category]) {
+        //             allSubcategories = [...allSubcategories, ...mapStore.impactAreaCategories[category]];
+        //         }
+        //     });
+        // }
 
         mapStore.filterLocations({
             min: range[0],
             max: range[1],
             organisations: selectedOrgs,
             names: selectedNames,
-            areas: allSubcategories,
+            areas: selectedAreas,
             years: selectedYears,
             types: selectedTypes
         });

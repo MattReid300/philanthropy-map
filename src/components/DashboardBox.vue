@@ -24,20 +24,6 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, 
 //     ]
 // }
 
-const donutImpactArea = computed(() => {
-    const dataObj = impactAreaCategoryCounts.value
-
-    return {
-        labels: Object.keys(dataObj),
-        datasets: [
-            {
-                data: Object.values(dataObj),
-                backgroundColor: ['#DC0000', '#960101', '#FF6363', '#D9D9D9'] // Add more if needed
-            }
-        ]
-    }
-})
-
 
 
 
@@ -85,41 +71,43 @@ const barOptions = {
 
 // POPULATING OF CHARTS
 
+
 const impactAreaCategoryCounts = computed(() => {
     const counts = {}
-    const subcategoryToCategoryMap = {}
 
-    // Build subcategory-to-category map
-    for (const [category, subcategories] of Object.entries(mapStore.impactAreaCategories)) {
-        subcategories.forEach(subcat => {
-            subcategoryToCategoryMap[subcat] = category
-        })
-    }
-
-    // Initialize counts
+    // Initialize counts for all categories in the store
     Object.keys(mapStore.impactAreaCategories).forEach(category => {
         counts[category] = 0
     })
 
     // Count how many filteredLocations fall into each category
     mapStore.filteredLocations.forEach(location => {
-        const subcategory = location.impactarea
-        const parentCategory = subcategoryToCategoryMap[subcategory]
-        if (parentCategory) {
-            counts[parentCategory]++
+        let category = location.impactarea?.trim()
+        if (!category) return
+
+        // normalize casing and spaces
+        category = category
+            .replace(/\s+/g, " ")       // collapse double spaces
+            .replace(/\s&\s/g, " & ")   // consistent ampersands
+            .trim()
+
+        if (category in counts) {
+            counts[category]++
+        } else {
+            // if it doesn't match any defined category, put it in "Other"
+            counts["Other"] = (counts["Other"] || 0) + 1
         }
     })
 
-    // Convert counts to array and sort by count descending
+    // Sort counts descending
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
 
-    // Top 3 categories
+    // Take top 3
     const topThree = sorted.slice(0, 3)
 
     // Sum of the rest
     const otherCount = sorted.slice(3).reduce((sum, [, count]) => sum + count, 0)
 
-    // Return as object
     const result = Object.fromEntries(topThree)
     if (otherCount > 0) {
         result["Other"] = otherCount
@@ -127,6 +115,7 @@ const impactAreaCategoryCounts = computed(() => {
 
     return result
 })
+
 
 
 const barDataYear = computed(() => {
@@ -256,6 +245,20 @@ const donutDataFundingType = computed(() => {
     };
 });
 
+
+const donutImpactArea = computed(() => {
+    const dataObj = impactAreaCategoryCounts.value
+
+    return {
+        labels: Object.keys(dataObj),
+        datasets: [
+            {
+                data: Object.values(dataObj),
+                backgroundColor: ['#DC0000', '#960101', '#FF6363', '#D9D9D9'] // Add more if needed
+            }
+        ]
+    }
+})
 </script>
 
 <template>
