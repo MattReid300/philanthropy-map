@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://raw.githubusercontent.com/MattReid300/philanthropyjsontest/refs/heads/main/pi-mapmarkers-23082025.json',
-    //baseURL: 'https://gist.githubusercontent.com/intern17/f3b9d999a3d9920ac9d943340b3ff594/raw/7cee33775633961616eaf518db292baa16e8792f/PhilanthropyIrelandMap.json',
+    //baseURL: 'https://raw.githubusercontent.com/MattReid300/philanthropyjsontest/refs/heads/main/pi-mapmarkers.json',
+    baseURL: 'https://api.github.com/repos/PhilanthropyIreland/json-map-data/contents/pi-mapmarkers.json',
+    headers: {
+        Authorization: `Bearer ${process.env.VUE_APP_GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3.raw" // ensures you get raw JSON
+    }
 });
 
 export default api;
