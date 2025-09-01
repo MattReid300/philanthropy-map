@@ -208,7 +208,7 @@ export const useDataStore = defineStore('mapstore', {
             this.filteredLocations = this.locations;
         },
         filterLocations({ min, max, organisations = [], names = [], areas = [], years = [], types = [] }) {
-            console.log('Filtering with Impact Areas:', areas);
+            //console.log('Filtering with Impact Areas:', areas);
             this.filteredLocations = this.locations.filter(location => {
                 const grant = parseInt(location.grantamount);
                 const orgMatch = organisations.length === 0 || organisations.includes(location.fundingorganisation);
@@ -246,6 +246,7 @@ export const useDataStore = defineStore('mapstore', {
                 .reduce((sum, loc) => sum + Number(loc.grantamount) || 0, 0)
         },
         totalGrantAmount: (state) => {
+            // Counting
             const total = state.filteredLocations.reduce((sum, loc) => {
                 const amount = parseFloat(
                     String(loc.grantamount).replace(/[^0-9.-]+/g, '')
@@ -253,7 +254,7 @@ export const useDataStore = defineStore('mapstore', {
                 return sum + amount
             }, 0)
 
-            // Format with commas (and currency symbol if needed)
+            // Formatting
             return total.toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'EUR',

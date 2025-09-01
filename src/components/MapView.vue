@@ -81,7 +81,7 @@ const formattedGrantAmount = computed(() => {
         <div style="
         position: absolute;
         top: 10px;
-        right: 10px;
+        right: 60px;
         background-color: rgba(255, 255, 255, 0.9);
         padding: 8px 12px;
         border-radius: 8px;
@@ -101,7 +101,7 @@ const formattedGrantAmount = computed(() => {
 }
 
 .gm-style-iw .gm-ui-hover-effect {
-  display: none !important;
+    display: none !important;
 }
 
 

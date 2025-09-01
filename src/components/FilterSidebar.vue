@@ -31,7 +31,7 @@ const fundingOrgTypes = ref([]);
 
 const selectedFundingOrganisations = ref([])
 const selectedProjectNames = ref([]);
-const grantRange = ref([0, 6000000]);
+const grantRange = ref([0, 300000000]);
 const selectedYearFunded = ref([]);
 const selectedOrganisationTypes = ref([]);
 const selectedImpactAreas = ref([]);
@@ -155,9 +155,9 @@ const formattedMax = computed({
                             </v-text-field>
                         </div>
                     </div>
-                    <v-range-slider v-model="grantRange" :max="6000000" :min="0" :step="1" class="align-center pt-2"
+                    <!-- <v-range-slider v-model="grantRange" :max="300000000" :min="0" :step="1" class="align-center pt-2"
                         hide-details>
-                    </v-range-slider>
+                    </v-range-slider> -->
                 </v-col>
                 <v-col cols="12">
                     <h4 class="mt-2">Year Funded</h4>
